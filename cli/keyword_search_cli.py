@@ -9,6 +9,8 @@ def main() -> None:
     search_parser.add_argument("query", type=str, help="Search query")
 
     args = parser.parse_args()
+    args.query = args.query.lower()
+    
     results = []
 
     match args.command:
@@ -20,7 +22,7 @@ def main() -> None:
                 for movie in movies:
                     if len(results) == 5: 
                         break
-                    if args.query in movie['title']:
+                    if args.query in movie['title'].lower():
                         results.append(movie)
         case _:
             parser.print_help()
