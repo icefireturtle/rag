@@ -1,5 +1,6 @@
 import argparse
 import json
+import string
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Keyword Search CLI")
@@ -10,6 +11,7 @@ def main() -> None:
 
     args = parser.parse_args()
     args.query = args.query.lower()
+    args.query = args.query.translate(str.maketrans('', '', string.punctuation))
     
     results = []
 
@@ -22,7 +24,7 @@ def main() -> None:
                 for movie in movies:
                     if len(results) == 5: 
                         break
-                    if args.query in movie['title'].lower():
+                    if args.query in movie['title'].lower().translate(str.maketrans('', '', string.punctuation)):
                         results.append(movie)
         case _:
             parser.print_help()
