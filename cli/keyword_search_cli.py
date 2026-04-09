@@ -9,14 +9,22 @@ def main() -> None:
     search_parser = subparsers.add_parser("search", help="Search movies using BM25")
     search_parser.add_argument("query", type=str, help="Search query")
 
+    stop_words = []
+    with open('data/stopwords.txt', 'r') as file:
+        for line in file:
+            stop_words.append(line.strip())
+    #print(f"Stop words: {stop_words}")
+        
+
     args = parser.parse_args()
     args.query = args.query.lower()
     args.query = args.query.translate(str.maketrans('', '', string.punctuation))
     tokens = args.query.split()
+    #print(f"Tokens: {tokens}")
     for token in tokens:
-        if token == "":
+        if token == "" or token in stop_words:
             tokens.remove(token)
-    
+    #print(f"Tokens after removing empty or stop word strings: {tokens}")
     results = []
 
     match args.command:
