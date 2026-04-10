@@ -1,6 +1,7 @@
 import argparse
 import json
 import string
+from nltk.stem import PorterStemmer
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Keyword Search CLI")
@@ -14,6 +15,7 @@ def main() -> None:
         for line in file:
             stop_words.append(line.strip())
     #print(f"Stop words: {stop_words}")
+    stemmer = PorterStemmer()
         
 
     args = parser.parse_args()
@@ -24,6 +26,8 @@ def main() -> None:
     for token in tokens:
         if token == "" or token in stop_words:
             tokens.remove(token)
+        else:
+            tokens[tokens.index(token)]= stemmer.stem(token)
     #print(f"Tokens after removing empty or stop word strings: {tokens}")
     results = []
 
